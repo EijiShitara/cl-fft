@@ -118,3 +118,22 @@
           do (setf (aref v (f m p)) val))
     v))
     
+;;; Iterative FFT
+(defun iter-fft (a)
+  "The length of array a must be a power of 2"
+  (let ((len (length a))
+        (a-perm (coerce (bit-reversal-permutation a) 'list)))
+
+    (loop for s from 1 to (log len 2)
+          do (let* ((m (expt 2 s))
+                    (omega-m (complex (cos (/ (* pi 2) m))
+                                      (sin (/ (* pi 2) m)))))
+               (loop for k from 0 to (- len 1) by m
+                     do (let ((omega 1))
+                          (loop for j from 0 to (- (/ m 2) 1)
+                                do (let ((v (* omega (nth (+ k j (/ m 2)) a-perm)))
+                                         (u (nth (+ k j) a-perm)))
+                                     (setf (nth (+ k j) a-perm) (+ u v)
+                                           (nth (+ k j (/ m 2)) a-perm) (- u v)
+                                           omega (* omega omega-m))))))))
+    a-perm))
