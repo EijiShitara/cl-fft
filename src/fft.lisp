@@ -28,9 +28,6 @@
                 lst)
           (reverse result)))))
 
-
-(odd-positions '(1 1 3 4 5))
-
 (defun fft (a)
   "The length of array a must be a power of 2"
   (flet ((euler (n)
@@ -54,7 +51,7 @@
                          (- (nth i y_0)
                             (* omega (nth i y_1))))
                    (setf omega (* omega omega-n)))
-          result)))))
+          (mapcar #'(lambda (x) (/ x len)) result))))))
 
 (defun inverse-fft (a)
   "The length of array a must be a power of 2"
