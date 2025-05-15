@@ -54,12 +54,12 @@
           result)))))
 
 ;;; Inverse FFT
-(defun %inverse-fft (a)
+(defun %inverse-fft (a &optional len)
   "The length of array a must be a power of 2"
   (flet ((euler (n)
            (complex (cos (/ (* pi 2) n))
                     (- (sin (/ (* pi 2) n))))))
-    (let ((len (length a)))
+    (let ((len (or len (length a))))
       (when (= 1 len)
         (return-from %inverse-fft a))
       (let* ((omega-n (euler len))
@@ -81,7 +81,7 @@
 
 (defun inverse-fft (a)
   (let ((len (length a)))
-    (mapcar #'(lambda (x) (/ x len)) (%inverse-fft a))))
+    (mapcar #'(lambda (x) (/ x len)) (%inverse-fft a len))))
 
 ;;; Bit-reversal-permutation
 (defun integer->bit-vector (integer &optional dim)
