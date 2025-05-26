@@ -40,7 +40,6 @@
   "The length of array a must be a power of 2"
   (let ((len (length a))
         (a-perm (coerce (bit-reversal-permutation a) 'list)))
-
     (loop for s from 1 to (log len 2)
           do (let* ((m (expt 2 s))
                     (omega-m (complex (cos (/ (* pi 2) m))
