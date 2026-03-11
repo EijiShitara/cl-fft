@@ -5,8 +5,8 @@
   "The length of the array must be a power of 2"
   (when (= (length array) 1)
     (return-from %fft array))
-  (let ((even-terms (make-array 0 :element-type 'number :adjustable t :fill-pointer 0))
-        (odd-terms (make-array 0 :element-type 'number :adjustable t :fill-pointer 0))
+  (let ((even-terms (make-array 0 :adjustable t :fill-pointer 0))
+        (odd-terms (make-array 0 :adjustable t :fill-pointer 0))
         (length 0))
     (loop for x across array
           for i from 0
